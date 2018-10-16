@@ -1,0 +1,4 @@
+[
+  "Host: 1.1.1.1 ()\tPorts: 443/closed/tcp//https///, 444/closed/tcp//snpp///, 8443/open/tcp//ssl|https-alt?///\tIgnored State: filtered (997)",
+  "Host: 2.2.2.2 ()\tPorts: 443/open/tcp//http//nginx 1.10.1/\tIgnored State: filtered (999)"
+]

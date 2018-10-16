@@ -1,0 +1,12 @@
+{
+  "us-west-2": [
+    {
+      "instance_id": "i-asdfghjkl1",
+      "instance_name": "login1-green",
+      "region": "us-west-2",
+      "public_ip_address": "1.1.1.1",
+      "public_dns_name": "ec2-1-1-1-1.us-west-2.compute.amazonaws.com",
+      "instance_type": "c3.large"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+# Emacs backup files
+*~
+
+#
+# No private Keys
+#
+*id_rsa*
+*.pem
+
+#
+# No debians
+#
+*.deb
+.project
+
+#
+# No packer cache
+#
+packer_cache
+
+#
+# not .log files
+#
+*.log
+
+#
+# Qing temp files
+#
+*.qing.tmp
+# eclipse related
+automation-framework/.buildpath
+# python related
+*.pyc
+*.pyo
+
+# cfndsl
+
+# public-ip-scan
+nmap-scan/output/*
+*all-instances*
+*scannable-instances*
+*bad*
+.vagrant

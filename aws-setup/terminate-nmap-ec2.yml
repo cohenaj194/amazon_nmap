@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    - key_name: "{{ lookup('env','NMAP_KEY_NAME') }}"
+    - elastic_ip: "{{ lookup('env','SOURCE_IP') }}"
+    - ami: "{{ lookup('env','AMI') }}"
+    - name: "nmap0"
+    - subnet: "{{ lookup('env','SUBNET_ID') }}"
+    - sec_group: "{{ lookup('env','SEC_GROUP') }}"
+    - instance_id: "{{ lookup('env','SOURCE_INSTANCE_ID') }}"
+  tasks:   
+    - name: Terminate old centos server
+      ec2:
+        region: 'us-west-2'
+        vpc_subnet_id: "{{ subnet }}"
+        group_id: "{{ sec_group }}"
+        assign_public_ip: yes
+        key_name: "{{ key_name }}"
+        instance_type: m3.medium
+        image: '{{ ami }}'
+        wait: true
+        exact_count: 0
+        count_tag:
+          Name: "{{ name }}"
+        instance_tags:
+          Name: "{{ name }}"
+      register: ec2

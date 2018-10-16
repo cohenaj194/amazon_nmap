@@ -1,0 +1,25 @@
+#!/bin/bash
+set -e
+bundle install 
+if [ "$1" == "--test" ]; then
+  mkdir output
+  bundle exec ruby describe-addresses.rb
+  rm output/*
+  bundle exec ruby download-static-ip-list.rb -b $UNIT_TEST_BUCKET --test 
+  cp output/master-scannable-instances.json output/scannable-instances.json
+  cp output/master-scannable-instances.csv output/scannable-instances.csv
+  cp output/master-scannable-instances.json output/all-instances.json
+  cp output/master-scannable-instances.csv output/all-instances.csv
+  bundle exec ruby monthly-ip-diff.rb -t 10 -b $UNIT_TEST_BUCKET --test
+  bundle exec ruby monthly-ip-diff.rb -t 17 -b $UNIT_TEST_BUCKET --test
+  bundle exec ruby nmap-port-scan.rb 
+  bundle exec ruby nmap-diff.rb -b $UNIT_TEST_BUCKET
+  bundle exec ruby bucket-upload.rb -b $UNIT_TEST_BUCKET
+else
+  bundle exec ruby describe-addresses.rb
+  bundle exec ruby download-static-ip-list.rb 
+  bundle exec ruby monthly-ip-diff.rb --run
+  bundle exec ruby nmap-port-scan.rb
+  bundle exec ruby nmap-diff.rb 
+  bundle exec ruby bucket-upload.rb
+fi

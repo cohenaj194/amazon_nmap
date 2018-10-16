@@ -1,0 +1,27 @@
+platform: linux
+
+inputs:
+- name: amazon-nmap
+
+run:
+  path: ci/unit-test-public-ip-scan.sh
+  dir: amazon-nmap
+
+image_resource:
+  type: docker-image
+  source:
+    repository: foobar_placeholder
+    tag: 'latest'
+
+params:
+  AWS_ACCESS_KEY_ID: foobar
+  AWS_SECRET_ACCESS_KEY: foobar
+  SCAN_AWS_ACCESS_KEY_ID: foobar
+  SCAN_AWS_SECRET_ACCESS_KEY: foobar
+  SCAN_ACCOUNT: aws-sisyphus
+  NMAP_KEY: foobar
+  BUCKET_PATH: 'path/to/s3/dir'
+  UNIT_TEST_BUCKET: foobucket
+  SOURCE_IP: "4.3.2.1"
+  SOURCE_INSTANCE_ID: foobar
+  SUBNET_ID: foobar

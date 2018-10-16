@@ -1,0 +1,79 @@
+[
+  [
+    {
+      "host": "1.2.3.4"
+    },
+    {
+      "old_ports": [
+        "new host no results from yesterday"
+      ],
+      "new_ports": [
+        {
+          "port": "80",
+          "state": "closed",
+          "protocol": "tcp",
+          "service": "http"
+        },
+        {
+          "port": "443",
+          "state": "open",
+          "protocol": "tcp",
+          "service": "https"
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "host": "1.1.1.1"
+    },
+    {
+      "old_ports": [
+        {
+          "port": "443",
+          "state": "closed",
+          "protocol": "tcp",
+          "service": "https"
+        },
+        {
+          "port": "444",
+          "state": "closed",
+          "protocol": "tcp",
+          "service": "snpp"
+        },
+        {
+          "port": "8443",
+          "state": "open",
+          "protocol": "tcp",
+          "service": "ssl|https-alt?"
+        }
+      ],
+      "new_ports": [
+        {
+          "port": "443",
+          "state": "closed",
+          "protocol": "tcp",
+          "service": "https"
+        },
+        {
+          "port": "444",
+          "state": "closed",
+          "protocol": "tcp",
+          "service": "snpp"
+        },
+        {
+          "port": "8443",
+          "state": "open",
+          "protocol": "tcp",
+          "service": "ssl|https-alt?"
+        },
+        {
+          "port": "8444",
+          "state": "open",
+          "protocol": "tcp",
+          "service": "ssl|https-alt?"
+        }
+      ]
+    }
+  ]
+]

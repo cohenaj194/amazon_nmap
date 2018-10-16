@@ -1,0 +1,18 @@
+[
+  {
+    "instance_id": "i-asdfghjkl1",
+    "instance_name": "login1-green",
+    "region": "us-west-2",
+    "public_ip_address": "1.1.1.1",
+    "public_dns_name": "ec2-1-1-1-1.us-west-2.compute.amazonaws.com",
+    "instance_type": "c3.large"
+  },
+  {
+    "instance_id": "i-lkjhgfds3",
+    "instance_name": "app1-green",
+    "region": "us-west-2",
+    "public_ip_address": "2.2.2.2",
+    "public_dns_name": "ec2-2-2-2-2.us-west-2.compute.amazonaws.com",
+    "instance_type": "r4.xlarge"
+  }
+]

@@ -1,0 +1,46 @@
+---
+resources:
+- name: amazon-nmap
+  type: git
+  source:
+    uri: foobar_placeholder
+    branch: master
+    version: latest
+    # the open source version of this will not require private keys
+    private_key: |
+      -----BEGIN RSA PRIVATE KEY-----
+      yourkegoesherewithlotsofgibberish
+      -----END RSA PRIVATE KEY-----
+jobs:
+- name: rspec
+  public: true
+  plan:
+  - get: amazon-nmap
+    trigger: true
+    version: latest
+  - task: rspec
+    file: amazon-nmap/ci/rspec-public-ip-scan.yml 
+
+- name: unit-test
+  public: true
+  plan:
+  - get: amazon-nmap
+    trigger: true
+    version: latest
+  - task: unit-test
+    file: amazon-nmap/ci/unit-test-public-ip-scan.yml 
+    params:
+      AWS_ACCESS_KEY_ID: foobar
+      AWS_SECRET_ACCESS_KEY: foobar
+      SCAN_AWS_ACCESS_KEY_ID: foobar
+      SCAN_AWS_SECRET_ACCESS_KEY: foobar
+      SCAN_ACCOUNT: foobar
+      NMAP_KEY: |
+        -----BEGIN RSA PRIVATE KEY-----
+        yourkegoesherewithlotsofgibberish
+        -----END RSA PRIVATE KEY-----
+      BUCKET_PATH: foobar
+      UNIT_TEST_BUCKET: foobar
+      SOURCE_IP: "1.2.3.4"
+      SOURCE_INSTANCE_ID: "i-foobar"
+      SUBNET_ID: "subnet-foobar"

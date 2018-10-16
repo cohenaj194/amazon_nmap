@@ -1,0 +1,38 @@
+[
+  [
+    {
+      "host": "1.2.3.4"
+    },
+    {
+      "open_ports": [
+        {
+          "port": "80",
+          "state": "closed",
+          "protocol": "tcp",
+          "service": "http"
+        },
+        {
+          "port": "443",
+          "state": "open",
+          "protocol": "tcp",
+          "service": "https"
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "host": "2.2.2.2"
+    },
+    {
+      "open_ports": [
+        {
+          "port": "443",
+          "state": "open",
+          "protocol": "tcp",
+          "service": "http"
+        }
+      ]
+    }
+  ]
+]

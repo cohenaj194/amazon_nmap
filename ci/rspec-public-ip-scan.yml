@@ -1,0 +1,14 @@
+platform: linux
+
+inputs:
+- name: amazon-nmap
+
+run:
+  path: ci/rspec-public-ip-scan.sh
+  dir: amazon-nmap
+
+image_resource:
+  type: docker-image
+  source:
+    repository: foobar_placeholder
+    tag: 'latest'

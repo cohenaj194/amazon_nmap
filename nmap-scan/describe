@@ -1,0 +1,40 @@
+#!/bin/bash
+cd ./nmap-scan/
+
+shutDownInstance(){
+  # this cleans out the /home/centos/scans/ directory 
+  ansible-playbook delete-scan-output.yml 
+  # stops the nmap instance
+  ansible-playbook -i localhost, stop-nmap-ec2.yml
+}
+trap shutDownInstance EXIT
+
+# starts nmap ec2 instance
+ansible-playbook -i localhost, start-nmap-ec2.yml
+echo
+echo 'PINGING [nmap-scan-temp] ****************************************************** ' 
+# checking that host was started
+if [ -e /etc/ansible/hosts ]; then
+  # need to ping the instance to avoid the `SSH Error: Permission denied`
+  exit_status=1
+  until [ $exit_status -eq 0 ]; do
+    ansible -m ping nmap-scan-temp 
+    exit_status=$?
+  done
+
+  # cleans out old files, makes sure nmap is installed, 
+  # and creates new blank files and directories for scans
+  ansible-playbook setup-nmap-ec2.yml
+
+  # running ruby scripts
+  ./bundle-run $1
+  exit_status=$?
+  if [ $exit_status -ne 0 ]; then
+    echo "bundler or one of the ruby scripts has failed"
+    exit 1
+  fi
+else
+  echo
+  echo "The command 'ansible-playbook -i localhost, start-nmap-ec2.yml' has failed, exiting..."
+  exit 1
+fi

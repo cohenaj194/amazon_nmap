@@ -1,0 +1,10 @@
+---
+- hosts: nmap-scan-temp
+  gather_facts: false
+  become: yes
+
+  tasks:
+    - name: Delete old scan files
+      file:
+        path: "/home/centos/scans/"
+        state: absent

@@ -1,0 +1,2 @@
+instance_id,instance_name,region,public_ip_address,public_dns_name,instance_type
+{{ ec2['tagged_instances'][0]['id'] }},{{name}},us-west-2,127.0.0.1,ec2-127-0-0-1.compute-1.amazonaws.com,m3.medium

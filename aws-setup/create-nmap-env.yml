@@ -1,0 +1,63 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    - key_name: "{{ lookup('env','NMAP_KEY_NAME') }}"
+    - elastic_ip: "{{ lookup('env','SOURCE_IP') }}"
+    - ami: "{{ lookup('env','AMI') }}"
+    - name: "{{ lookup('env','INSTANCE_NAME') }}"
+    - subnet: "{{ lookup('env','SUBNET_ID') }}"
+    - sec_group: "{{ lookup('env','SEC_GROUP') }}"
+    - bucket_name: "{{ lookup('env','BUCKET_NAME') }}"
+    - bucket_path: "{{ lookup('env','BUCKET_PATH') }}"
+  tasks:
+    # replaces it with a new nmap instance
+    - name: Create a new centos server
+      ec2:
+        region: 'us-west-2'
+        vpc_subnet_id: "{{ subnet }}"
+        group_id: "{{ sec_group }}"
+        assign_public_ip: yes
+        key_name: "{{ key_name }}"
+        instance_type: m3.medium
+        image: '{{ ami }}'
+        wait: true
+        exact_count: 1
+        count_tag:
+          Name: "{{ name }}"
+        instance_tags:
+          Name: "{{ name }}"
+      register: ec2
+
+    - name: Show ec2 instance json data
+      debug:
+        msg: "{{ ec2['tagged_instances'] }}"
+
+    - name: associate an elastic IP with an instance
+      ec2_eip:
+        region: 'us-west-2'
+        instance_id: "{{ ec2['tagged_instances'][0]['id'] }}"
+        ip: "{{ elastic_ip }}"
+
+    - name: create s3 unit test storage bucket
+      s3_bucket:
+        name: "{{bucket_name}}"
+
+    - name: create master files for unit tests
+      template:
+        src: "master.{{item}}.tmp"
+        dest: "master-scannable-instances.{{item}}"
+      with_items:
+        - "json"
+        - "csv"
+
+    - name: PUT/upload false master files to s3 bucket
+      s3:
+        bucket: "{{bucket_name}}"
+        object: "{{bucket_path}}/master-scannable-instances.{{item}}"
+        src: "master-scannable-instances.{{item}}"
+        mode: put
+      with_items:
+        - "json"
+        - "csv"

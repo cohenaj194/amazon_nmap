@@ -1,0 +1,51 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    - keypair: "{{ lookup('env','NMAP_KEY') }}"
+    - instance_id: "{{ lookup('env','SOURCE_INSTANCE_ID') }}"
+    - elastic_ip: "{{ lookup('env','SOURCE_IP') }}"
+    - subnet: "{{ lookup('env','SUBNET_ID') }}"
+  tasks:
+    #### Managing local files in the docker container run by concourse
+    - name: set nmap_keypair in concourse docker container
+      copy: 
+        dest: /nmap-scan/nmap_keypair.pem 
+        content: "{{ keypair }}"
+        mode: 0600
+
+    - name: save ip address of instance
+      copy: 
+        dest: /nmap-scan/nmap-instance-addr.txt 
+        content: "{{ elastic_ip }}"
+
+    - name: add to hosts file
+      copy: 
+        dest: /etc/ansible/hosts 
+        content: |-
+          [nmap-scan-temp:vars]
+          ansible_ssh_private_key_file=/nmap-scan/nmap_keypair.pem
+          ansible_ssh_user=centos
+          [nmap-scan-temp]
+          {{ elastic_ip }}
+
+    #### Starting Nmap instance
+    - name: Start centos server
+      ec2:
+        instance_ids: '{{ instance_id }}'
+        region: 'us-west-2'
+        state: running
+        wait: True
+        vpc_subnet_id:  "{{ subnet }}"
+      register: ec2
+
+    - name: Show ec2 instance json data
+      debug:
+        msg: "{{ ec2 }}"
+
+    - name: Wait for SSH to come up
+      wait_for: host="{{ elastic_ip }}" port=22 delay=1 timeout=480 state=started
+
+    - name: Accept new ssh fingerprints                                       
+      shell: ssh-keyscan -H "{{ elastic_ip }}" >> ~/.ssh/known_hosts 

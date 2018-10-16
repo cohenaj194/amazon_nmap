@@ -1,0 +1,27 @@
+---
+- hosts: nmap-scan-temp
+  gather_facts: false
+  become: yes
+
+  tasks:
+    - name: install nmap on the instance  
+      become: true
+      yum:
+        name: nmap
+        state: present
+
+    - name: Delete old scan files
+      file:
+        state: absent
+        path: /home/centos/scans/
+        
+    - name: Create new blank scan files
+      file:
+        path: "/home/centos/{{ item.path }}"
+        state: "{{ item.state }}" 
+        mode: 0777
+      with_items:
+        - path: "scans/"
+          state: directory
+        - path: "scans/list-of-ips.txt"
+          state: touch
