@@ -1,8 +1,3 @@
-This repo is where the git repo for this code will be stored while it is in development.
-Here all illumio resources will be removed. 
-After this process the files will be moved into a new repo without a git history to insure that there is no history of sensitive data stored in git. 
-
-
 Required environmental variables:
 
 ```
