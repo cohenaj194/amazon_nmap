@@ -10,7 +10,7 @@ run:
 image_resource:
   type: docker-image
   source:
-    repository: foobar_placeholder
+    repository: cohenaj194/amazon_nmap
     tag: 'latest'
 
 params:

@@ -3,7 +3,7 @@ resources:
 - name: amazon-nmap
   type: git
   source:
-    uri: foobar_placeholder
+    uri: cohenaj194/amazon_nmap
     branch: master
     version: latest
     # the open source version of this will not require private keys

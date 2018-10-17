@@ -1,3 +1,5 @@
+https://hub.docker.com/r/cohenaj194/amazon_nmap/
+
 Required environmental variables:
 
 ```
@@ -29,7 +31,7 @@ SUBNET_ID: foobar
 To create the needed aws resources run:
 
 ```
-docker pull amazon-nmap
+docker pull cohenaj194/amazon_nmap
 docker run -e NMAP_KEY_NAME='foobar' \
               SOURCE_IP='foobar' \
               AMI='foobar' \
@@ -41,5 +43,5 @@ docker run -e NMAP_KEY_NAME='foobar' \
               AWS_ACCESS_KEY_ID=foobar \
               AWS_SECRET_ACCESS_KEY=foobar \
               AWS_REGION=us-west-2 \
-              amazon-nmap 'ansible-playbook /aws-setup/create-nmap-env.yml'
+              cohenaj194/amazon_nmap 'ansible-playbook /aws-setup/create-nmap-env.yml'
 ```
