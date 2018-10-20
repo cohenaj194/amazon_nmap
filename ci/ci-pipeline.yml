@@ -3,10 +3,9 @@ resources:
 - name: amazon-nmap
   type: git
   source:
-    uri: cohenaj194/amazon_nmap
+    uri: git@github.com:cohenaj194/amazon_nmap.git
     branch: master
     version: latest
-    # the open source version of this will not require private keys
     private_key: |
       -----BEGIN RSA PRIVATE KEY-----
       yourkegoesherewithlotsofgibberish
