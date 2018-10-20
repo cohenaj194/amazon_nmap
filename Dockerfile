@@ -18,6 +18,9 @@ RUN mkdir /nmap-scan/
 RUN mkdir /nmap-scan/output/
 ADD nmap-scan/* /nmap-scan/
 RUN cd /nmap-scan/ && bundle install
+RUN mkdir /aws-setup/
+ADD aws-setup/* /aws-setup/
+
 
 RUN mkdir /root/.ssh/
 RUN touch /root/.ssh/known_hosts
