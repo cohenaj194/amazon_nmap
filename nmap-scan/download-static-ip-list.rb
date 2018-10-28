@@ -33,10 +33,18 @@ def download_master_ip_list
   
   s3 = create_s3_client(@options[:access], @options[:secret])
 
-  master_json = s3.get_object({ 
-    bucket: @options[:bucketname], 
-    key: "#{@options[:bucket_path]}/#{@options[:scan_account]}/master-scannable-instances.json" 
-  }).body.read
+  begin
+    master_json = s3.get_object({ 
+      bucket: @options[:bucketname], 
+      key: "#{@options[:bucket_path]}/#{@options[:scan_account]}/master-scannable-instances.json" 
+    }).body.read
+  rescue Aws::S3::Errors::NoSuchKey => e
+    LOGGER.warn("No such file #{@options[:bucket_path]}/#{@options[:scan_account]}/master-scannable-instances.json, consider creating one.")
+    master_json = s3.get_object({ 
+      bucket: @options[:bucketname], 
+      key: "#{@options[:bucket_path]}/default/master-scannable-instances.json" 
+    }).body.read
+  end
 
   File.open("./output/master-scannable-instances.json","w") do |file|
     file.write(master_json)
