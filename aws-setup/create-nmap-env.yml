@@ -55,7 +55,7 @@
     - name: PUT/upload false master files to s3 bucket
       s3:
         bucket: "{{bucket_name}}"
-        object: "{{bucket_path}}/master-scannable-instances.{{item}}"
+        object: "{{bucket_path}}/default/master-scannable-instances.{{item}}"
         src: "./master-scannable-instances.{{item}}"
         mode: put
       with_items:
