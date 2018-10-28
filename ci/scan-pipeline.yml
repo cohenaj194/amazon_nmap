@@ -1,0 +1,58 @@
+---
+resources:
+- name: amazon-nmap
+  type: git
+  source:
+    uri: git@github.com:cohenaj194/amazon_nmap.git
+    branch: master
+    version: latest
+    private_key: |
+      -----BEGIN RSA PRIVATE KEY-----
+      yourkegoesherewithlotsofgibberish
+      -----END RSA PRIVATE KEY-----
+- name: after-midnight
+  type: time
+  source:
+    start: 12:00 AM
+    stop: 4:00 AM
+    location: America/Chicago
+jobs:
+- name: rit-scan
+  public: true
+- name: after-midnight
+  trigger: true
+  plan:
+  - get: amazon-nmap
+    version: latest
+  - task: unit-test
+    file: /nmap-scan/describe
+    params:
+      AWS_ACCESS_KEY_ID: foobar
+      AWS_SECRET_ACCESS_KEY: foobar
+      SCAN_AWS_ACCESS_KEY_ID: foobar
+      SCAN_AWS_SECRET_ACCESS_KEY: foobar
+      AWS_REGION: us-west-2 
+      SCAN_ACCOUNT: foobar
+      NMAP_KEY_NAME: Foobar
+      NMAP_KEY: |
+        -----BEGIN RSA PRIVATE KEY-----
+        yourkegoesherewithlotsofgibberish
+        -----END RSA PRIVATE KEY-----
+      AMI: foobar
+      SUBNET_ID: foobar
+      BUCKET_PATH: foobar
+      SOURCE_IP: "1.2.3.4"
+      SOURCE_INSTANCE_ID: "i-foobar"
+      SUBNET_ID: "subnet-foobar"
+      BUCKET_NAME: 'foobar'
+      BUCKET_PATH: 'path/to/s3/dir'
+      AWS_ACCOUNT_NUMBER: 1234567890
+      AWS_ACCOUNT_EMAIL: someaccount.email@whatever.com
+      SUBMITTERNAME: 'firstname lastname'
+      COMPANYNAME: 'Foobar Inc'
+      SOURCE_INSTANCE_ID: "i-asdfghjkl09876"
+      SOURCE_IP: "4.3.2.1"
+      PEN_TEST_REQUEST_EMAIL_RECIPIENT: foo.bar@whatever.com
+      OUTLOOK_EMAIL: foo.bar@whatever.com
+      OUTLOOK_EMAIL_PASSWORD: foo.bar@whatever.com
+      OUTLOOK_DOMAIN: foobar.com

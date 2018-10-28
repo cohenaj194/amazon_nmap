@@ -16,7 +16,7 @@ SUBNET_ID: foobar
 
 BUCKET_NAME: 'foobar'
 BUCKET_PATH: 'path/to/s3/dir'
-UNIT_TEST_BUCKET: foobucket
+UNIT_TEST_BUCKET: foobucket # for ci tests only used insteaed of BUCKET_NAME
 
 AWS_ACCOUNT_NUMBER: 1234567890
 AWS_ACCOUNT_EMAIL: someaccount.email@whatever.com
@@ -29,6 +29,15 @@ PEN_TEST_REQUEST_EMAIL_RECIPIENT: foo.bar@whatever.com
 OUTLOOK_EMAIL: ((OUTLOOK_EMAIL))
 OUTLOOK_EMAIL_PASSWORD: ((OUTLOOK_EMAIL_PASSWORD))
 OUTLOOK_DOMAIN: foobar.com
+```
+
+The container can be used outside of concourse through any system that utilizes docker.  Simply pass in the environmental variables above and activate the `/nmap-scan/describe` script to run the scan. For example:
+
+```
+$ docker --rm -it \
+	-e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+	-e SCAN_ACCOUNT=myaccountname .... \
+	cohenaj194/amazon_nmap /nmap-scan/describe
 ```
 
 You can create your own s3 bucket and aws instance or use the playbooks in this repo to create them for you.  To use the playbook you will need to create an ec2 keypair (to be the nmap key), ec2 elastic ip (to be the source ip), vpc and subnet, security group, and pick a centos 7 ami to use. Then set the values for these resources as the following environmental variables:

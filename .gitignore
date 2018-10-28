@@ -41,3 +41,4 @@ nmap-scan/output/*
 *scannable-instances*
 *bad*
 .vagrant
+*.retry
