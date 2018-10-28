@@ -36,7 +36,8 @@ The container can be used outside of concourse through any system that utilizes 
 ```
 $ docker --rm -it \
 	-e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
-	-e SCAN_ACCOUNT=myaccountname .... \
+	-e SCAN_ACCOUNT=myaccountname \
+	..put..the..others..in.... \
 	cohenaj194/amazon_nmap /nmap-scan/describe
 ```
 
