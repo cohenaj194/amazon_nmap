@@ -11,7 +11,7 @@ require_relative 'shared-functions'
   secret: ENV['AWS_SECRET_ACCESS_KEY'],
   bucket_path: ENV['BUCKET_PATH']
 }
-opt_parser = OptionParser.new do |opts|
+OptionParser.new do |opts|
   opts.banner = <<~EOF
     Description: downloads the static list of ips to scan for an aws account master-scannable-instances.json
 

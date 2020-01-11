@@ -26,7 +26,7 @@ require_relative 'shared-functions'
   source_ip: ENV['SOURCE_IP'],
   source_id: ENV['SOURCE_ID']
 }
-opt_parser = OptionParser.new do |opts|
+OptionParser.new do |opts|
   opts.banner = <<~EOF
     On the 10th of the month a temporary static list is created from todays ./output/scannable-instances.json in the S3 bucket under the S3 path:
      #{@options[:bucket_path]}/$SCAN_ACCOUNT/temp-scannable-instances.json

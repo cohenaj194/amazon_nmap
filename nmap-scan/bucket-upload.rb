@@ -12,7 +12,7 @@ require_relative 'shared-functions'
   bucket_path: ENV['BUCKET_PATH'],
   scan_account: ENV.fetch('SCAN_ACCOUNT', 'default')
 }
-opt_parser = OptionParser.new do |opts|
+OptionParser.new do |opts|
   opts.banner = <<~EOF
     Description: Uploads any files to an S3 bucket, whose names appear in #{Dir.pwd}/file-names.txt
 

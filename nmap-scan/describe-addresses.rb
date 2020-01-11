@@ -11,7 +11,7 @@ require_relative 'shared-functions'
   all_instances: [],
   ec2_addresses_hash: {}
 }
-opt_parser = OptionParser.new do |opts|
+OptionParser.new do |opts|
   opts.banner = <<~EOF
     Description: creates scannable-instances.json, scannable-instances.csv, all-instances.csv and all-instances.json
 

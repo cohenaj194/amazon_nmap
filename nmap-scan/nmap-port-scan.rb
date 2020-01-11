@@ -13,7 +13,7 @@ SSH_COMMAND = 'ssh -i /nmap-scan/nmap_keypair.pem -o ControlMaster=auto -o Contr
 @options = {
   json_path: './output/master-scannable-instances.json'
 }
-opt_parser = OptionParser.new do |opts|
+OptionParser.new do |opts|
   opts.banner = <<~EOF
     WARNING: Do not run this from any source other than an ec2 instance with a public IP address approved by AWS
              Those who do will suffer the wrath of an "Amazon EC2 Abuse Report"

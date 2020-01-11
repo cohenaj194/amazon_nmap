@@ -15,7 +15,7 @@ require_relative 'shared-functions'
   bucket_path: ENV['BUCKET_PATH']
   # port_list: JSON.parse(ENV.fetch('PORT_LIST','["21","22","23","25","53","80","110","137","138","139","443","1434","2222","3389","5985","5986","7000","8020","8080"]'))
 }
-opt_parser = OptionParser.new do |opts|
+OptionParser.new do |opts|
   opts.banner = <<~EOF
     Description: checks over todays gnmap files,
                  checks for common ports that should not be open and diffs from the previous days gnmap files
