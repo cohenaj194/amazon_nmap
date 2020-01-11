@@ -99,25 +99,25 @@ def send_mail
   end
 
   # create the email body
-  message = ''"
-  Email aws-security-cust-pen-test@amazon.com with the below information.
+  message = <<~EOF
+    Email aws-security-cust-pen-test@amazon.com with the below information.
 
-  SubmitterName                       #{@options[:submittername]}
-  CompanyName                         #{@options[:companyname]}
-  EmailAddress                        #{@options[:aws_account_email]}
+    SubmitterName                       #{@options[:submittername]}
+    CompanyName                         #{@options[:companyname]}
+    EmailAddress                        #{@options[:aws_account_email]}
 
-  Account Name: #{@options[:scan_account]}
-  Account Number: #{@options[:aws_account_number]}
-  IPs to be scanned: #{todays_ip_list.join("\n")}
-  Instance IDs: #{instance_ids}
-  Source: #{@options[:source_ip]}
-  Source ID: #{@options[:source_id]}
-  Region: #{aws_regions_list(@options[:access], @options[:secret]).join(', ')}
-  timezone: gmt--11
-  Bandwidth                       .1
-  StartDate: #{(Time.now + (24 * 60 * 60)).strftime('%Y-%m-%d')} 00:00
-  EndDate:  #{(Time.now + (90 * 24 * 60 * 60)).strftime('%Y-%m-%d')} 00:00
-  "''
+    Account Name: #{@options[:scan_account]}
+    Account Number: #{@options[:aws_account_number]}
+    IPs to be scanned: #{todays_ip_list.join("\n")}
+    Instance IDs: #{instance_ids}
+    Source: #{@options[:source_ip]}
+    Source ID: #{@options[:source_id]}
+    Region: #{aws_regions_list(@options[:access], @options[:secret]).join(', ')}
+    timezone: gmt--11
+    Bandwidth                       .1
+    StartDate: #{(Time.now + (24 * 60 * 60)).strftime('%Y-%m-%d')} 00:00
+    EndDate:  #{(Time.now + (90 * 24 * 60 * 60)).strftime('%Y-%m-%d')} 00:00
+  EOF
   # write out email contents into a file for record keeping
   File.open('./output/email-message.txt', 'w') do |file|
     file.write(message)
