@@ -42,3 +42,4 @@ nmap-scan/output/*
 *bad*
 .vagrant
 *.retry
+.DS_Store
