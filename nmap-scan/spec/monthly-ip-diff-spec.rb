@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'json'
 require_relative '../monthly-ip-diff'
@@ -30,7 +31,7 @@ describe 'create_ip_diff' do
   end
 
   it 'creates a diff of ip addresses' do
-    monthly_ip_diff = create_ip_diff(@current,@master)
+    monthly_ip_diff = create_ip_diff(@current, @master)
     expect(monthly_ip_diff).to eq(@monthly_ip_diff)
   end
 end
