@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'json'
 require_relative '../describe-addresses'
@@ -9,7 +10,7 @@ describe 'filter_describe_instances_output' do
     wd = File.dirname(__FILE__)
     fixtures = File.join(wd, 'fixtures')
 
-    @raw_ec2 = JSON.parse(File.read(File.join(fixtures, 'raw_ec2.json')), opts = {symbolize_names: true})
+    @raw_ec2 = JSON.parse(File.read(File.join(fixtures, 'raw_ec2.json')))
     @scannable_instances = JSON.parse(File.read(File.join(fixtures, 'scannable_instances.json')))
   end
 
@@ -18,4 +19,3 @@ describe 'filter_describe_instances_output' do
     expect(scannable_instances).to eq(@scannable_instances)
   end
 end
-

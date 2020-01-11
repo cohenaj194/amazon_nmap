@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 require 'time'
 require 'pathname'
 require_relative 'shared-functions'
@@ -8,17 +10,17 @@ require_relative 'shared-functions'
   access: ENV['AWS_ACCESS_KEY_ID'],
   secret: ENV['AWS_SECRET_ACCESS_KEY'],
   bucket_path: ENV['BUCKET_PATH'],
-  scan_account: ENV.fetch('SCAN_ACCOUNT','default'),
+  scan_account: ENV.fetch('SCAN_ACCOUNT', 'default')
 }
-opt_parser = OptionParser.new do |opts|
-  opts.banner = <<-EOF
-Description: Uploads any files to an S3 bucket, whose names appear in #{Dir.pwd}/file-names.txt
+OptionParser.new do |opts|
+  opts.banner = <<~EOF
+    Description: Uploads any files to an S3 bucket, whose names appear in #{Dir.pwd}/file-names.txt
 
-Takes AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY as the default aws variables.
-Note that these are the access keys for the account of your s3 bucket and can be different than your scan account. 
+    Takes AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY as the default aws variables.
+    Note that these are the access keys for the account of your s3 bucket and can be different than your scan account.
 
-Usage: bundle exec ruby #{__FILE__} -z $SCAN_ACCOUNT -b $BUCKET_NAME --bucket_path $BUCKET_PATH -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY 
-EOF
+    Usage: bundle exec ruby #{__FILE__} -z $SCAN_ACCOUNT -b $BUCKET_NAME --bucket_path $BUCKET_PATH -a $AWS_ACCESS_KEY_ID -s $AWS_SECRET_ACCESS_KEY
+  EOF
   opts.on('-b', '--bucket BUCKETNAME', 'bucketname') { |bucketname| @options[:bucketname] = bucketname }
   opts.on('-p', '--bucket_path BUCKET_PATH', 'bucket_path') { |bucket_path| @options[:bucket_path] = bucket_path }
   opts.on('-z', '--aws_account SCAN_ACCOUNT', 'scan_account') { |scan_account| @options[:scan_account] = scan_account }
@@ -43,8 +45,8 @@ def main
   s3_resource = create_s3_resource(@options[:access], @options[:secret])
 
   puts "Uploading to #{@options[:bucketname]}..."
-  FILES.each do | file_name |
-    bucket_file_name="#{TIME_STAMP}-#{Pathname(file_name).relative_path_from(Pathname('./output')).to_s}"
+  FILES.each do |file_name|
+    bucket_file_name = "#{TIME_STAMP}-#{Pathname(file_name).relative_path_from(Pathname('./output'))}"
     s3_resource.bucket(@options[:bucketname]).object("#{BUCKET_DIRECTORY}/#{bucket_file_name}").upload_file(file_name)
     puts "Uploaded: #{BUCKET_DIRECTORY}/#{bucket_file_name}"
   end
@@ -52,6 +54,4 @@ def main
   puts "#{__FILE__} has finished"
 end
 
-if $0 == __FILE__
-  main
-end
+main if $PROGRAM_NAME == __FILE__
