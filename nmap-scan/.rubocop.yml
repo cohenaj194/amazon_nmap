@@ -15,3 +15,12 @@ Style/ConditionalAssignment:
 
 Metrics/AbcSize:
   Enabled: false
+
+Naming/AccessorMethodName:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false

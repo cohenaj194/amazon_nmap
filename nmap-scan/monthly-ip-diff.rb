@@ -108,7 +108,7 @@ def send_mail
 
   Account Name: #{@options[:scan_account]}
   Account Number: #{@options[:aws_account_number]}
-  IPs to be scanned: #{get_todays_ip_list.join("\n")}
+  IPs to be scanned: #{todays_ip_list.join("\n")}
   Instance IDs: #{instance_ids}
   Source: #{@options[:source_ip]}
   Source ID: #{@options[:source_id]}
@@ -125,15 +125,15 @@ def send_mail
   # pen testing will switch 6-7 days after this is sent and we will want this to continue for 90 days
 
   # create IT ticket if running
-  if @options[:run]
-    email_recipient = @options[:pen_test_request_email_recipient]
-    Mail.deliver do
-      from     from_email
-      to       email_recipient
-      subject  "#{scan_account} Pen Test Request"
-      body     message
-      add_file './output/scannable-instances.csv'
-    end
+  return unless @options[:run]
+
+  email_recipient = @options[:pen_test_request_email_recipient]
+  Mail.deliver do
+    from     from_email
+    to       email_recipient
+    subject  "#{scan_account} Pen Test Request"
+    body     message
+    add_file './output/scannable-instances.csv'
   end
 end
 
@@ -150,9 +150,9 @@ end
 
 def make_new_master_scannable_instances
   # gets the list of ips from todays scannable-instances.json produced by ./describe-addresses.rb
-  current = get_ip_list_from_hash(use_ec2_addresses_hash(@options[:json_path]))
+  current = ip_list_from_hash(use_ec2_addresses_hash(@options[:json_path]))
   # gets the list of ips from the master-scannable-instances.json produced by ./download-static-ip-list.rb
-  master = get_ip_list_from_hash(use_ec2_addresses_hash(@options[:master_path]))
+  master = ip_list_from_hash(use_ec2_addresses_hash(@options[:master_path]))
 
   # diff the current list of ips from the current master list in use to get the delta
   diff = create_ip_diff(current, master)
@@ -238,7 +238,7 @@ end
 # uploads temp list as new master list in the S3 bucket
 def change_master_scannable_instances
   # check that master-scannable-instances.json exists locally
-  master_test = use_ec2_addresses_hash(@options[:master_path])
+  use_ec2_addresses_hash(@options[:master_path])
 
   # check that master-scannable-instances.json and temp-scannable-instances.json exist in the bucket
   master_path = "#{@options[:bucket_path]}/#{@options[:scan_account]}/master-scannable-instances.json"

@@ -53,7 +53,7 @@ end
 
 # creates a list of todays active public ip addresses from all regions
 # using the scannable-instances.csv file
-def get_todays_ip_list
+def todays_ip_list
   # gather up active ip addresses from todays describe-addresses
   active_addresses = []
   CSV.foreach('output/scannable-instances.csv', headers: true) do |row|
@@ -64,7 +64,7 @@ end
 
 # creates a list of todays public ip addresses from all regions
 # using the hash from a scannable-instances.json, master-scannable-instances.json or all-instances.json file
-def get_ip_list_from_hash(ec2_addresses_hash)
+def ip_list_from_hash(ec2_addresses_hash)
   # list to hold all addresses of an account
   ec2_addresses_list = []
   ec2_addresses_hash.each do |_region, address_blob|

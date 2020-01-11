@@ -10,7 +10,7 @@ describe 'filter_describe_instances_output' do
     wd = File.dirname(__FILE__)
     fixtures = File.join(wd, 'fixtures')
 
-    @raw_ec2 = JSON.parse(File.read(File.join(fixtures, 'raw_ec2.json')), opts = { symbolize_names: true })
+    @raw_ec2 = JSON.parse(File.read(File.join(fixtures, 'raw_ec2.json')))
     @scannable_instances = JSON.parse(File.read(File.join(fixtures, 'scannable_instances.json')))
   end
 

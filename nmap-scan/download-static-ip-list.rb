@@ -38,7 +38,7 @@ def download_master_ip_list
       bucket: @options[:bucketname],
       key: "#{@options[:bucket_path]}/#{@options[:scan_account]}/master-scannable-instances.json"
     ).body.read
-  rescue Aws::S3::Errors::NoSuchKey => e
+  rescue Aws::S3::Errors::NoSuchKey
     LOGGER.warn("No such file #{@options[:bucket_path]}/#{@options[:scan_account]}/master-scannable-instances.json, consider creating one.")
     master_json = s3.get_object(
       bucket: @options[:bucketname],
@@ -50,15 +50,15 @@ def download_master_ip_list
     file.write(master_json)
   end
 
-  if @options[:test]
-    master_csv = s3.get_object(
-      bucket: @options[:bucketname],
-      key: "#{@options[:bucket_path]}/#{@options[:scan_account]}/master-scannable-instances.csv"
-    ).body.read
+  return unless @options[:run]
 
-    File.open('./output/master-scannable-instances.csv', 'w') do |file|
-      file.write(master_csv)
-    end
+  master_csv = s3.get_object(
+    bucket: @options[:bucketname],
+    key: "#{@options[:bucket_path]}/#{@options[:scan_account]}/master-scannable-instances.csv"
+  ).body.read
+
+  File.open('./output/master-scannable-instances.csv', 'w') do |file|
+    file.write(master_csv)
   end
 end
 

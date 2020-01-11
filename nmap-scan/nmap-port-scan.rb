@@ -24,14 +24,14 @@ OptionParser.new do |opts|
 end.parse!
 
 def check_exit_status(exit_status, scan_results)
-  if exit_status != 0
-    error_msg = "nmap or ssh is broken and has refused to run, exiting with a status of #{exit_status}\n"
-    error_msg += "#{scan_results}\n"
-    error_msg += e.to_s
-    LOGGER.warn(error_msg)
-    LOGGER.close
-    abort
-  end
+  return unless exit_status != 0
+
+  error_msg = "nmap or ssh is broken and has refused to run, exiting with a status of #{exit_status}\n"
+  error_msg += "#{scan_results}\n"
+  error_msg += e.to_s
+  LOGGER.warn(error_msg)
+  LOGGER.close
+  abort
 end
 
 # gathers up all public ips of a region into a list
@@ -87,7 +87,7 @@ def main
   puts
 
   # gather up active ip addresses from todays describe-addresses
-  active_addresses = get_todays_ip_list
+  active_addresses = todays_ip_list
 
   # takes master-scannable-instances.json output file of describe-addresses.rb
   # pulls out the list of public ips from each region and runs nmap on that list
