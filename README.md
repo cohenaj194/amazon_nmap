@@ -5,6 +5,13 @@ A CI/CD AWS wrapper for nmap.
 ## Dockerhub container location
 https://hub.docker.com/r/cohenaj194/amazon_nmap/
 
+## CircleCI tests
+
+```
+circleci local execute --job rubocop
+circleci local execute --job rspec
+```
+
 ## Required Environmental Variables:
 
 ```

@@ -2,24 +2,27 @@ version: 2
 jobs:
   rubocop:
     docker:
-      - image: cohenaj194/amazon_nmap
-        environment:
-          BUNDLER_VERSION: 2.0.0
+      - image: cohenaj194/amazon_nmap_test
     steps:
       - checkout
       - run: 
           name: run rubocop
-          command: bundle exec rubocop nmap-scan/
+          command: |
+            bundle install
+            bundle exec rubocop
   rspec:
     docker:
-      - image: cohenaj194/amazon_nmap
-        environment:
-          BUNDLER_VERSION: 2.0.0
+      - image: cohenaj194/amazon_nmap_test
+    environment:
+      - AWS_ACCESS_KEY_ID: foobar
+      - AWS_SECRET_ACCESS_KEY: foobar
     steps:
       - checkout
       - run: 
           name: run rspec
-          command: bundle exec rspec nmap-scan/
+          command: |
+            bundle install
+            bundle exec rspec 
 workflows:
   version: 2
   ruby_tests:
