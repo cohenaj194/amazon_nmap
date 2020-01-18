@@ -5,8 +5,6 @@
 require_relative 'shared-functions'
 require 'yaml'
 
-# creating logger
-LOGGER = Logger.new(STDERR)
 NMAP_INSTANCE_ADDRESS = ENV['SOURCE_IP']
 SSH_COMMAND = 'ssh -i /nmap-scan/nmap_keypair.pem -o ControlMaster=auto -o ControlPersist=60s -o ControlPath="/tmp/ssh-%h-%p-%r"'
 
