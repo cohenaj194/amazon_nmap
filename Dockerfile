@@ -1,15 +1,22 @@
-FROM centos:7
+FROM drecom/centos-ruby:2.6.3-slim
 
 # install software
 RUN yum install -y -q https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 RUN yum update -y
 RUN yum install -y ansible \
-                   ruby \
                    nmap \
                    python \
                    python-dev \
                    python-pip \ 
-                   openssh-clients 
+                   openssh-clients \
+                   git \
+                   make \
+                   automake \
+                   gcc \
+                   gcc-c++ \
+                   kernel-devel
+
+RUN gem update --system
 RUN gem install bundler
 RUN pip install boto
 
