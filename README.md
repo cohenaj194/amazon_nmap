@@ -1,3 +1,14 @@
+# Amazon_nmap
+
+A CI/CD AWS wrapper for nmap.
+
+## State of AWS pen testing
+
+AWS no longer requires pen test request submitions and the original static list format is now outdated.
+
+This branch will be kept as a preserved version of that version 1 pentest wrapper.
+
+## Dockerhub container location
 https://hub.docker.com/r/cohenaj194/amazon_nmap/
 
 ## Required Environmental Variables:
