@@ -1,0 +1,28 @@
+version: 2
+jobs:
+  rubocop:
+    docker:
+      - image: cohenaj194/amazon_nmap
+        environment:
+          BUNDLER_VERSION: 2.0.0
+    steps:
+      - checkout
+      - run: 
+          name: run rubocop
+          command: bundle exec rubocop nmap-scan/
+  rspec:
+    docker:
+      - image: cohenaj194/amazon_nmap
+        environment:
+          BUNDLER_VERSION: 2.0.0
+    steps:
+      - checkout
+      - run: 
+          name: run rspec
+          command: bundle exec rspec nmap-scan/
+workflows:
+  version: 2
+  ruby_tests:
+    jobs:
+      - rspec
+      - rubocop
