@@ -23,9 +23,62 @@ jobs:
           command: |
             bundle install
             bundle exec rspec 
+  describe:
+    docker:
+      - image: cohenaj194/amazon_nmap_test
+    environment:
+      - AWS_ACCESS_KEY_ID: foobar
+      - AWS_SECRET_ACCESS_KEY: foobar
+    steps:
+      - checkout
+      - run: 
+          name: collect instance info
+          command: |
+            bundle install
+            bundle exec nmap-scan/describe-addresses.rb
+      - persist_to_workspace:
+          root: ~/project/nmap-scan/output/
+          paths:
+          - output/scannable-instances.json
+          - output/scannable-instances.csv
+          - output/all-instances.json
+          - output/all-instances.csv
+  unit_test_scan:
+    docker:
+      - image: cohenaj194/amazon_nmap_test
+    environment:
+      - AWS_ACCESS_KEY_ID: foobar
+      - AWS_SECRET_ACCESS_KEY: foobar
+      - REGION: us-west-2
+    steps:
+      - checkout
+      - run: 
+          name: run scan 
+          command: |
+            bundle install
+            bundle exec nmap-scan/region-ip-list.rb aws-setup/master.json.tmp
+
+            nmap -sV -v -A midnight_port_scan -Pn -n \
+             --top-ports 1000 --max-rtt-timeout 500ms \
+             -oA output -iL list-of-ips.txt
+
+            # some other magic to make the results files from the output.* produced by the regular nmap scan
+      - persist_to_workspace:
+          root: ~/project/nmap-scan/output/
+          paths:
+            - us-west-2-nmap-results.gnmap
+            - us-west-2-nmap-results.nmap
+            - us-west-2-nmap-results.xml
+          
 workflows:
   version: 2
   ruby_tests:
     jobs:
       - rspec
       - rubocop
+  unit_tests:
+    jobs:
+      - describe
+      - unit_test_scan:
+          requires:
+            - describe
